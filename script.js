@@ -1,71 +1,68 @@
-// Get the form, input, current image container, and search history elements
-const searchForm = document.getElementById('search-form');
-const searchInput = document.getElementById('search-input');
-const currentImageContainer = document.getElementById('current-image-container');
-const searchHistoryList = document.querySelector('#search-history ul');
-
-// Event listener for the form submission
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const selectedDate = searchInput.value;
-    getImageOfTheDay(selectedDate);
-});
-
-// Function to fetch and display the image of the day for the current date
-function getCurrentImageOfTheDay() {
+const getCurrentImageOfTheDay=async()=>{
     const currentDate = new Date().toISOString().split("T")[0];
-    getImageOfTheDay(currentDate);
+    console.log(currentDate)
+    let data= await fetch(`https://api.nasa.gov/planetary/apod?api_key=LCc8yC3V8qH2zpKDNlqx2G9jEKIw2kwPOhuNCX2a&date=${currentDate}`);
+    let parsedData=await data.json();
+    console.log(parsedData)
+    heading.innerText="NASA Picture of the Day" 
+    image.src=parsedData.hdurl;
+    desc.innerText=parsedData.explanation;
+    title.innerText=parsedData.title;
+
+
 }
 
-// Function to fetch and display the image of the day for a specific date
-function getImageOfTheDay(date) {
-    const apiKey = 'YOUR_API_KEY'; // Replace with your NASA API key
-    const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${date}`;
+const getImageOfTheDay=async(date)=>{
+    let data= await fetch(`https://api.nasa.gov/planetary/apod?api_key=LCc8yC3V8qH2zpKDNlqx2G9jEKIw2kwPOhuNCX2a&date=${date}`);
+    let parsedData=await data.json();
+    heading.innerText=`Picture on ${date}`  
+    image.src=parsedData.hdurl;
+    desc.innerText=parsedData.explanation;
+    title.innerText=parsedData.title;
 
-    // Fetch the data from the NASA API
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Display the image of the day in the current image container
-            currentImageContainer.innerHTML = `
-                <h2>${data.title}</h2>
-                <img src="${data.url}" alt="${data.title}">
-                <p>${data.explanation}</p>
-            `;
-
-            // Save the date to local storage
-            saveSearch(date);
-
-            // Add the date to the search history list
-            addSearchToHistory(date);
-        })
-        .catch(error => {
-            console.log('Error:', error);
-            // Display an error message in the current image container
-            currentImageContainer.innerHTML = '<p>Error occurred while fetching the image. Please try again later.</p>';
-        });
 }
 
-// Function to save the selected date to local storage
-function saveSearch(date) {
-    let searches = JSON.parse(localStorage.getItem('searches')) || [];
-    searches.push(date);
-    localStorage.setItem('searches', JSON.stringify(searches));
+const saveSearch=async(date)=>{
+    if(sessionStorage.getItem("dateList"))
+    {
+        let localList=JSON.parse(sessionStorage.getItem("dateList"))
+        localList.push(date)
+        sessionStorage.setItem("dateList",JSON.stringify(localList))
+    }
+    else{
+        let list=[];
+        list.push(date);
+        console.log(list)
+        sessionStorage.setItem("dateList",JSON.stringify(list));
+    }
+    console.log(JSON.parse(sessionStorage.getItem("dateList")))
+    
 }
 
-// Function to add the search date to the search history list
-function addSearchToHistory(date) {
-    const searchItem = document.createElement('li');
-    searchItem.textContent = date;
+const addSearchToHistory=()=>{
+    let localList=JSON.parse(sessionStorage.getItem("dateList"))    
+        const li = document.createElement("li");
+        li.classList.add("LiItem");
+        li.innerHTML=`${localList[localList.length-1]}`
+        li.addEventListener("click", () => {
+            let date= li.innerText
+            getImageOfTheDay(date)
 
-    // Add a click event listener to the search item
-    searchItem.addEventListener('click', () => {
-        getImageOfTheDay(date);
-    });
+          })
+        document.getElementById("searchList").appendChild(li)
 
-    // Add the search item to the search history list
-    searchHistoryList.appendChild(searchItem);
 }
 
-// Run the getCurrentImageOfTheDay function when the page loads
-getCurrentImageOfTheDay();
+submit.addEventListener("click",async(e)=>{
+    e.preventDefault();
+    getImageOfTheDay(date.value)
+    saveSearch(date.value)
+    addSearchToHistory(date.value)
+
+})
+
+const render=async()=>{
+    getCurrentImageOfTheDay();
+
+}
+render();

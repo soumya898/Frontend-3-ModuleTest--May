@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>NASA Image of the Day</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <header>
-        <h1>NASA Image of the Day</h1>
-    </header>
-
-    <main>
-        <form id="search-form">
-            <label for="search-input">Select a Date:</label>
-            <input type="date" id="search-input">
-            <button type="submit">Search</button>
-        </form>
-
-        <section id="current-image-container">
-            <!-- Current image of the day will be displayed here -->
-        </section>
-
-        <section id="search-history">
-            <h2>Search History</h2>
-            <ul>
-                <!-- Past searches will be displayed here -->
-            </ul>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
+    <div class="main">
+        <div class="container">
+            <h1 id="heading">Picture of the Day</h1>
+            <img src="" id="image" alt="something">
+            <h2 id="title"></h2>
+            <p id="desc"></p>
+        </div>
+        <div class="container1">
+            <h2>Search for a Picture of the Day</h2>
+            <span>
+                <form id="search-form">
+                    <label for="birthday">Select a date: </label>
+                    <input type="date" id="date" name="date">
+                    <input type="submit" id="submit">
+                </form>
+            </span>
+            <h2>Previous Searches</h2>
+            <ul id="searchList" style="list-style-type: none;"></ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="script.js"></script>
 </body>
+
 </html>
