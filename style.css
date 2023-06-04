@@ -1,4 +1,4 @@
- /* body {
+ /* /* body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -60,7 +60,7 @@ button {
 } 
 
  */
- *{
+ /* *{
     margin: 0;
     box-sizing: border-box;
 
@@ -96,4 +96,59 @@ body{
     margin-top: 20px;
     display: grid;
     row-gap: 10px;
-}
+} */ 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .LiItem {
+    color: #0000ee;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .container {
+    background-color: black;
+    color: white;
+    max-width: 100%;
+    padding: 20px;
+    display: grid;
+    row-gap: 5px;
+  }
+  
+  #image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .container1 {
+    margin-top: 20px;
+    display: grid;
+    row-gap: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    body {
+      flex-direction: row;
+    }
+  
+    .container {
+      max-width: 100%;
+      padding: 0 10px;
+    }
+  
+    #image {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
